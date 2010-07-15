@@ -1,5 +1,7 @@
-function run_test() {
-    print("hello");
+load("../core/pake.js");
+
+function test_add() {
+    print("addjs(2,3) = " + addjs(2,3));
 }
 
-run_test();
+test_add();
