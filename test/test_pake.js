@@ -21,5 +21,12 @@ function test_pake_debug() {
 
 function test_pake_recv_Y() {
     var pc = new pake.client();
-    pc.recv_Y("abcdef0123456789");
+    do_check_true(pc.recv_Y("abcdef0123456789"));
+}
+
+function test_pake_compute_respc() {
+    let pc = new pake.client();
+    pc.set_credentials("jsmith", "protected area", "jsmith");
+    pc.recv_Y("abcd");
+    do_check_true(!!pc.compute_respc(12345));
 }

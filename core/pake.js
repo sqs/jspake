@@ -31,12 +31,28 @@ pake.client = function() {
                     ctypes.int,
                     pake_info_t_ptr);
 
+    this._pake_client_set_credentials = 
+        lib.declare("pake_client_set_credentials",
+                    ctypes.default_abi,
+                    ctypes.int,
+                    pake_info_t_ptr,
+                    ctypes.char.ptr,
+                    ctypes.char.ptr,
+                    ctypes.char.ptr);
+
     this._pake_client_recv_Y_string = 
         lib.declare("pake_client_recv_Y_string",
                     ctypes.default_abi,
                     ctypes.int,
                     pake_info_t_ptr,
                     ctypes.char.ptr);
+
+    this._tcpcrypt_pake_compute_respc = 
+        lib.declare("tcpcrypt_pake_compute_respc",
+                    ctypes.default_abi,
+                    ctypes.char.ptr,
+                    pake_info_t_ptr,
+                    ctypes.unsigned_long);
 
     this._debug_pake_info = 
         lib.declare("debug_pake_info",
@@ -60,20 +76,22 @@ pake.client.prototype = {
         this._username = username;
         this._realm = realm;
         this._password = password;
+        this._pake_client_set_credentials(this._p, this._username,
+                                          this._realm, this._password);
     },
 
     /**
-     * @return {void}
+     * @return {int} success
      */
     recv_Y:function (server_Y_string) {
-        this._pake_client_recv_Y_string(this._p, server_Y_string);
+        return this._pake_client_recv_Y_string(this._p, server_Y_string);
     },
     
     /**
      * @return {String} respc
      */
     compute_respc:function (tcpcrypt_sid) {
-
+        return this._tcpcrypt_pake_compute_respc(this._p, tcpcrypt_sid);
     },
 
     /**
