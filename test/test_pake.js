@@ -18,3 +18,5 @@ function run_test() {
     test_pake_client_new();
     test_pake_client_set_credentials();
 }
+
+run_test();
