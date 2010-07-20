@@ -1,6 +1,8 @@
-.PHONY: default
+TEST_SCRIPTS=$(wildcard *.js)
 
-TEST_SCRIPTS=test_pake.js
+.PHONY: default $(TEST_SCRIPTS:.js=)
+
+default: $(TEST_SCRIPTS:.js=)
 
 $(TEST_SCRIPTS:.js=): $(TEST_SCRIPTS)
 	$(xpcshell) -f harness/head.js -f $@.js -f harness/tail.js
