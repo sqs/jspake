@@ -25,10 +25,16 @@ pake.client = function() {
                     ctypes.default_abi,
                     pake_info_t_ptr);
 
+    this._pake_client_init = 
+        lib.declare("pake_client_init",
+                    ctypes.default_abi,
+                    ctypes.int,
+                    pake_info_t_ptr);
+
     this._pake_client_recv_Y_string = 
         lib.declare("pake_client_recv_Y_string",
                     ctypes.default_abi,
-                    ctypes.int.ptr,
+                    ctypes.int,
                     pake_info_t_ptr,
                     ctypes.char.ptr);
 
@@ -39,6 +45,7 @@ pake.client = function() {
                     pake_info_t_ptr);
     
     this._p = this._pake_client_new();
+    this._pake_client_init(this._p);
 };
 
 pake.client.prototype = {
