@@ -7,19 +7,36 @@ const Cr = Components.results;
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 const pake_info_t_ptr = ctypes.voidptr_t; //new ctypes.PointerType("struct_pake_info");
-const EC_POINT_t_ptr = ctypes.voidptr_t;
+const BIGNUM_t_ptr = ctypes.char.ptr;
+const EC_POINT_t_ptr = ctypes.char.ptr;
 
 
 var pake = {};
 
-pake.client = function() {
+pake = function(isclient) {
     this._username = null;
     this._realm = null;
-    this._password = null;
+    if (isclient) {
+        this._password = null;
+    } else {
+        this._pi_0 = null;
+        this._L = null;
+    }
 
     let lib = ctypes.open("/home/sqs/src/pake/libpake.so");
 
     /* declare function prototypes */
+    this._pake_server_new =
+        lib.declare("pake_server_new",
+                    ctypes.default_abi,
+                    pake_info_t_ptr);
+
+    this._pake_server_init = 
+        lib.declare("pake_server_init",
+                    ctypes.default_abi,
+                    ctypes.int,
+                    pake_info_t_ptr);
+
     this._pake_client_new =
         lib.declare("pake_client_new",
                     ctypes.default_abi,
@@ -40,8 +57,25 @@ pake.client = function() {
                     ctypes.char.ptr,
                     ctypes.char.ptr);
 
+    this._pake_server_set_credentials = 
+        lib.declare("pake_server_set_credentials",
+                    ctypes.default_abi,
+                    ctypes.int,
+                    pake_info_t_ptr,
+                    ctypes.char.ptr,
+                    ctypes.char.ptr,
+                    BIGNUM_t_ptr,
+                    EC_POINT_t_ptr);
+
     this._pake_client_recv_Y_string = 
         lib.declare("pake_client_recv_Y_string",
+                    ctypes.default_abi,
+                    ctypes.int,
+                    pake_info_t_ptr,
+                    ctypes.char.ptr);
+
+    this._pake_server_recv_X_string = 
+        lib.declare("pake_server_recv_X_string",
                     ctypes.default_abi,
                     ctypes.int,
                     pake_info_t_ptr,
@@ -67,19 +101,24 @@ pake.client = function() {
                     ctypes.void_t,
                     pake_info_t_ptr);
     
-    this._p = this._pake_client_new();
-    this._pake_client_init(this._p);
+    if (isclient) {
+        this._p = this._pake_client_new();
+        this._pake_client_init(this._p);
+    } else {
+        this._p = this._pake_server_new();
+        this._pake_server_init(this._p)
+    }
 };
 
-pake.client.prototype = {
+pake.prototype = {
     /**
-     * Set auth credentials.
+     * Set auth credentials for client.
      * @param {String} username
      * @param {String} realm
      * @param {String} password
      * @return {void}
      */
-    set_credentials:function (username, realm, password) {
+    client_set_credentials:function (username, realm, password) {
         this._username = username;
         this._realm = realm;
         this._password = password;
@@ -88,10 +127,34 @@ pake.client.prototype = {
     },
 
     /**
+     * Set auth credentials for server.
+     * @param {String} username
+     * @param {String} realm
+     * @param {BIGNUM *} pi_0
+     * @param {EC_POINT *} L
+     * @return {void}
+     */
+    server_set_credentials:function (username, realm, pi_0, L) {
+        this._username = username;
+        this._realm = realm;
+        this._pi_0 = pi_0;
+        this._L = L;
+        this._pake_server_set_credentials(this._p, this._username, this._realm,
+                                          this._pi_0, this._L);
+    },
+
+    /**
      * @return {int} success
      */
-    recv_Y:function (server_Y_string) {
+    client_recv_Y:function (server_Y_string) {
         return this._pake_client_recv_Y_string(this._p, server_Y_string);
+    },
+
+    /**
+     * @return {int} success
+     */
+    server_recv_X:function (client_X_string) {
+        return this._pake_server_recv_X_string(this._p, client_X_string);
     },
     
     /**
@@ -102,14 +165,13 @@ pake.client.prototype = {
     },
 
     /**
-     * @param {??} tcpcrypt_sid
-     * @param {String} server_resps
-     * @return {bool} True only if server_resps is valid.
+     * @return {String} resps
      */
-    check_resps:function (tcpcrypt_sid, server_resps) {
-        return (server_resps ==
-                this._tcpcrypt_pake_compute_resps(this._p, tcpcrypt_sid));
+    compute_resps:function (tcpcrypt_sid) {
+        return this._tcpcrypt_pake_compute_resps(this._p, tcpcrypt_sid);
     },
+
+    /*************************************************************************/
 
     /**
      * Prints out a human-readable representation of this object's internal
@@ -121,8 +183,5 @@ pake.client.prototype = {
     },
 
 
-    /*************************************************************************/
-    _compute_h:function () {
 
-    },
 };
