@@ -1,14 +1,11 @@
-run_mozilla_sh=/usr/lib/xulrunner-1.9.2.8pre/run-mozilla.sh
-xpcshell_bin=/usr/bin/xpcshell-1.9.2
+run_mozilla_sh=/usr/lib/xulrunner-2.0b2pre/run-mozilla.sh
+xpcshell_bin=/usr/bin/xpcshell-2.0
 export xpcshell=$(run_mozilla_sh) $(xpcshell_bin)
 
 .PHONY: xpcshell test
-
-clib:
-	$(MAKE) -C c
 
 xpcshell:
 	@$(xpcshell)
 
 test:
-	$(MAKE) -C test
+	$(MAKE) -k -C test

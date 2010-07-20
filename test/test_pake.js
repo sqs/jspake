@@ -2,7 +2,7 @@ load("../core/pake.js");
 
 function test_pake_client_new() {
     var pc = new pake.client();
-    do_check_true(pc);
+    do_check_true(!!pc);
 }
 
 function test_pake_client_set_credentials() {
@@ -13,10 +13,3 @@ function test_pake_client_set_credentials() {
     do_check_eq(pc._realm, "protected area");
     do_check_eq(pc._password, "jsmith");
 }
-
-function run_test() {
-    test_pake_client_new();
-    test_pake_client_set_credentials();
-}
-
-run_test();
