@@ -13,3 +13,13 @@ function test_pake_client_set_credentials() {
     do_check_eq(pc._realm, "protected area");
     do_check_eq(pc._password, "jsmith");
 }
+
+function test_pake_debug() {
+    var pc = new pake.client();
+    // pc.debug();
+}
+
+function test_pake_recv_Y() {
+    var pc = new pake.client();
+    pc.recv_Y("abcdef0123456789");
+}

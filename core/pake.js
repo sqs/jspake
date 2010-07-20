@@ -7,6 +7,7 @@ const Cr = Components.results;
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 const pake_info_t_ptr = ctypes.voidptr_t; //new ctypes.PointerType("struct_pake_info");
+const EC_POINT_t_ptr = ctypes.voidptr_t;
 
 
 var pake = {};
@@ -18,11 +19,26 @@ pake.client = function() {
 
     let lib = ctypes.open("/home/sqs/src/pake/libpake.so");
 
-    this._pake_client_init = lib.declare("pake_client_new",
-                                         ctypes.default_abi,
-                                         pake_info_t_ptr);
+    /* declare function prototypes */
+    this._pake_client_new =
+        lib.declare("pake_client_new",
+                    ctypes.default_abi,
+                    pake_info_t_ptr);
+
+    this._pake_client_recv_Y_string = 
+        lib.declare("pake_client_recv_Y_string",
+                    ctypes.default_abi,
+                    ctypes.int.ptr,
+                    pake_info_t_ptr,
+                    ctypes.char.ptr);
+
+    this._debug_pake_info = 
+        lib.declare("debug_pake_info",
+                    ctypes.default_abi,
+                    ctypes.void_t,
+                    pake_info_t_ptr);
     
-    this._p = this._pake_client_init();
+    this._p = this._pake_client_new();
 };
 
 pake.client.prototype = {
@@ -42,8 +58,8 @@ pake.client.prototype = {
     /**
      * @return {void}
      */
-    set_server_Y:function (server_Y) {
-        
+    recv_Y:function (server_Y_string) {
+        this._pake_client_recv_Y_string(this._p, server_Y_string);
     },
     
     /**
@@ -67,7 +83,7 @@ pake.client.prototype = {
      * @return {void}
      */
     debug:function () {
-
+        this._debug_pake_info(this._p);
     },
 
 
