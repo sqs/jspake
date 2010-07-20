@@ -30,3 +30,10 @@ function test_pake_compute_respc() {
     pc.recv_Y("abcd");
     do_check_true(!!pc.compute_respc(12345));
 }
+
+function test_pake_check_resps() {
+    let pc = new pake.client();
+    pc.set_credentials("jsmith", "protected area", "jsmith");
+    pc.recv_Y("abcd");
+    pc.check_resps(12345, "abc123"); /* TODO: check against value */
+}

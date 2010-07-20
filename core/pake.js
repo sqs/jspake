@@ -47,6 +47,13 @@ pake.client = function() {
                     pake_info_t_ptr,
                     ctypes.char.ptr);
 
+    this._tcpcrypt_pake_compute_resps = 
+        lib.declare("tcpcrypt_pake_compute_resps",
+                    ctypes.default_abi,
+                    ctypes.char.ptr,
+                    pake_info_t_ptr,
+                    ctypes.unsigned_long);
+
     this._tcpcrypt_pake_compute_respc = 
         lib.declare("tcpcrypt_pake_compute_respc",
                     ctypes.default_abi,
@@ -96,10 +103,12 @@ pake.client.prototype = {
 
     /**
      * @param {??} tcpcrypt_sid
+     * @param {String} server_resps
      * @return {bool} True only if server_resps is valid.
      */
     check_resps:function (tcpcrypt_sid, server_resps) {
-
+        return (server_resps ==
+                this._tcpcrypt_pake_compute_resps(this._p, tcpcrypt_sid));
     },
 
     /**
