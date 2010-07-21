@@ -1,5 +1,4 @@
-"use strict";
-/*jslint indent: 2, bitwise: false, nomen: false, plusplus: false, white: false, regexp: false */
+
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -119,7 +118,7 @@ pake = function(isclient) {
         this._pake_client_init(this._p);
     } else {
         this._p = this._pake_server_new();
-        this._pake_server_init(this._p, null)
+        this._pake_server_init(this._p, null);
     }
 };
 
