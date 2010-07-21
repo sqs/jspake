@@ -35,7 +35,8 @@ pake = function(isclient) {
         lib.declare("pake_server_init",
                     ctypes.default_abi,
                     ctypes.int,
-                    pake_info_t_ptr);
+                    pake_info_t_ptr,
+                    BIGNUM_t_ptr);
 
     this._pake_client_new =
         lib.declare("pake_client_new",
@@ -66,6 +67,18 @@ pake = function(isclient) {
                     ctypes.char.ptr,
                     BIGNUM_t_ptr,
                     EC_POINT_t_ptr);
+
+    this._pake_server_get_Y_string = 
+        lib.declare("pake_server_get_Y_string",
+                    ctypes.default_abi,
+                    ctypes.char.ptr,
+                    pake_info_t_ptr);
+
+    this._pake_client_get_X_string = 
+        lib.declare("pake_client_get_X_string",
+                    ctypes.default_abi,
+                    ctypes.char.ptr,
+                    pake_info_t_ptr);
 
     this._pake_client_recv_Y_string = 
         lib.declare("pake_client_recv_Y_string",
@@ -106,7 +119,7 @@ pake = function(isclient) {
         this._pake_client_init(this._p);
     } else {
         this._p = this._pake_server_new();
-        this._pake_server_init(this._p)
+        this._pake_server_init(this._p, null)
     }
 };
 
@@ -122,8 +135,9 @@ pake.prototype = {
         this._username = username;
         this._realm = realm;
         this._password = password;
-        this._pake_client_set_credentials(this._p, this._username,
-                                          this._realm, this._password);
+        return this._pake_client_set_credentials(this._p, 
+                                                 this._username, this._realm,
+                                                 this._password);
     },
 
     /**
@@ -139,8 +153,17 @@ pake.prototype = {
         this._realm = realm;
         this._pi_0 = pi_0;
         this._L = L;
-        this._pake_server_set_credentials(this._p, this._username, this._realm,
-                                          this._pi_0, this._L);
+        return this._pake_server_set_credentials(this._p, 
+                                                 this._username, this._realm,
+                                                 this._pi_0, this._L);
+    },
+
+    server_get_Y_string:function () {
+        return this._pake_server_get_Y_string(this._p);
+    },
+
+    client_get_X_string:function () {
+        return this._pake_client_get_X_string(this._p);
     },
 
     /**
