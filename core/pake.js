@@ -1,3 +1,4 @@
+EXPORTED_SYMBOLS = ['pake'];
 
 
 const Cc = Components.classes;
