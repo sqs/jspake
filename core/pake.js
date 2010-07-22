@@ -1,9 +1,3 @@
-
-
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cr = Components.results;
-
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 const pake_info_t_ptr = ctypes.voidptr_t; //new ctypes.PointerType("struct_pake_info");
 const BIGNUM_t_ptr = ctypes.char.ptr;
