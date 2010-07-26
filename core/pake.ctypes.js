@@ -129,7 +129,7 @@ pake.prototype = {
      */
     client_set_credentials:function (username, realm, password) {
         this._username = username;
-        this._realm = realm;
+        this._realm = realm.toString();
         this._password = password;
         return this._pake_client_set_credentials(this._p, 
                                                  this._username, this._realm,
