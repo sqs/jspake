@@ -19,7 +19,7 @@ pake = function(isclient) {
         this._L = null;
     }
 
-    let lib = ctypes.open("/home/sqs/src/pake/libpake.so");
+    let lib = ctypes.open("/home/sqs/src/ffpake/source/modules/ext/libpake.so");
 
     /* declare function prototypes */
     this._pake_server_new =
