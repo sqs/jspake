@@ -1,4 +1,4 @@
-load("../core/pake.js");
+load("../core/pake.ctypes.js");
 
 function test_session() {
     var ps = new pake(0);

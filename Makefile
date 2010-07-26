@@ -1,4 +1,4 @@
-run_mozilla_sh=/usr/lib/xulrunner-2.0b2pre/run-mozilla.sh
+run_mozilla_sh=/usr/lib/xulrunner-2.0b3pre/run-mozilla.sh
 xpcshell_bin=/usr/bin/xpcshell-2.0
 export xpcshell=$(run_mozilla_sh) $(xpcshell_bin)
 

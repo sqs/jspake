@@ -2,11 +2,6 @@ EXPORTED_SYMBOLS = ['pake'];
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 
-if (!('char' in ctypes)) {
-    ctypes.char = {ptr: ctypes.string};
-    ctypes.voidptr_t = ctypes.string;
-}
-
 const pake_info_t_ptr = ctypes.voidptr_t; //new ctypes.PointerType("struct_pake_info");
 const BIGNUM_t_ptr = ctypes.char.ptr;
 const EC_POINT_t_ptr = ctypes.char.ptr;
