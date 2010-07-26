@@ -12,10 +12,10 @@ function test_session() {
     do_check_true(pc.client_recv_Y(ps.server_get_Y_string()));
 
     let sid = 123456;
-    let ss = ps.compute_resps(sid).readString();
-    let sc = ps.compute_respc(sid).readString();
-    let cs = pc.compute_resps(sid).readString();
-    let cc = pc.compute_respc(sid).readString();
+    let ss = ps.compute_resps(sid);
+    let sc = ps.compute_respc(sid);
+    let cs = pc.compute_resps(sid);
+    let cc = pc.compute_respc(sid);
 
     do_check_neq(ss, "");
     do_check_eq(ss, cs);

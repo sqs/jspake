@@ -180,14 +180,14 @@ pake.prototype = {
      * @return {String} respc
      */
     compute_respc:function (tcpcrypt_sid) {
-        return this._tcpcrypt_pake_compute_respc(this._p, tcpcrypt_sid);
+        return this._tcpcrypt_pake_compute_respc(this._p, tcpcrypt_sid).readString();
     },
 
     /**
      * @return {String} resps
      */
     compute_resps:function (tcpcrypt_sid) {
-        return this._tcpcrypt_pake_compute_resps(this._p, tcpcrypt_sid);
+        return this._tcpcrypt_pake_compute_resps(this._p, tcpcrypt_sid).readString();
     },
 
     /*************************************************************************/
