@@ -1,4 +1,4 @@
-load("../core/pake.ctypes.js");
+load("../../core/pake.ctypes.js");
 
 function test_pake_client_new() {
     var pc = new pake(1);

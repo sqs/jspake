@@ -8,4 +8,5 @@ xpcshell:
 	@$(xpcshell)
 
 test:
-	$(MAKE) -k -C test
+	$(MAKE) -k -C test && \
+	$(MAKE) -k -C test/ctypes
