@@ -9,9 +9,9 @@ function test_pake_client_set_credentials() {
     /* kind of a stupid test, but... */
     var pc = new pake(1);
     pc.client_set_credentials("jsmith", "protected area", "jsmith");
-    do_check_eq(pc._username, "jsmith");
-    do_check_eq(pc._realm, "protected area");
-    do_check_eq(pc._password, "jsmith");
+    do_check_eq(pc._username.readString(), "jsmith");
+    do_check_eq(pc._realm.readString(), "protected area");
+    do_check_eq(pc._password.readString(), "jsmith");
 }
 
 function test_pake_debug() {
