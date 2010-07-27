@@ -90,15 +90,15 @@ pake = function(isclient) {
                     pake_info_t_ptr,
                     ctypes.char.ptr);
 
-    this._tcpcrypt_pake_compute_resps = 
-        lib.declare("tcpcrypt_pake_compute_resps",
+    this._pake_compute_resps = 
+        lib.declare("pake_compute_resps",
                     ctypes.default_abi,
                     ctypes.char.ptr,
                     pake_info_t_ptr,
                     ctypes.unsigned_long);
 
-    this._tcpcrypt_pake_compute_respc = 
-        lib.declare("tcpcrypt_pake_compute_respc",
+    this._pake_compute_respc = 
+        lib.declare("pake_compute_respc",
                     ctypes.default_abi,
                     ctypes.char.ptr,
                     pake_info_t_ptr,
@@ -182,14 +182,14 @@ pake.prototype = {
      * @return {String} respc
      */
     compute_respc:function (tcpcrypt_sid) {
-        return this._tcpcrypt_pake_compute_respc(this._p, tcpcrypt_sid).readString();
+        return this._pake_compute_respc(this._p, tcpcrypt_sid).readString();
     },
 
     /**
      * @return {String} resps
      */
     compute_resps:function (tcpcrypt_sid) {
-        return this._tcpcrypt_pake_compute_resps(this._p, tcpcrypt_sid).readString();
+        return this._pake_compute_resps(this._p, tcpcrypt_sid).readString();
     },
 
     /*************************************************************************/
