@@ -1,5 +1,5 @@
-run_mozilla_sh=/usr/lib/xulrunner-2.0b3pre/run-mozilla.sh
-xpcshell_bin=/usr/bin/xpcshell-2.0
+run_mozilla_sh=~/src/mozilla-central/objdir-ff-debug/dist/bin/run-mozilla.sh
+xpcshell_bin=~/src/mozilla-central/objdir-ff-debug/dist/bin/xpcshell
 export xpcshell=$(run_mozilla_sh) $(xpcshell_bin)
 
 .PHONY: xpcshell test
