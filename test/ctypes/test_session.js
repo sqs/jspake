@@ -11,11 +11,11 @@ function test_session() {
     do_check_true(ps.server_recv_X(pc.client_get_X_string()));
     do_check_true(pc.client_recv_Y(ps.server_get_Y_string()));
 
-    let sid = 123456;
-    let ss = ps.compute_resps(sid);
-    let sc = ps.compute_respc(sid);
-    let cs = pc.compute_resps(sid);
-    let cc = pc.compute_respc(sid);
+    let sessid = "abcd123";
+    let ss = ps.compute_resps(sessid);
+    let sc = ps.compute_respc(sessid);
+    let cs = pc.compute_resps(sessid);
+    let cc = pc.compute_respc(sessid);
 
     do_check_neq(ss, "");
     do_check_eq(ss, cs);

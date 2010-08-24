@@ -95,14 +95,14 @@ pake = function(isclient) {
                     ctypes.default_abi,
                     ctypes.char.ptr,
                     pake_info_t_ptr,
-                    ctypes.unsigned_long);
+                    ctypes.char.ptr);
 
     this._pake_compute_respc = 
         lib.declare("pake_compute_respc",
                     ctypes.default_abi,
                     ctypes.char.ptr,
                     pake_info_t_ptr,
-                    ctypes.unsigned_long);
+                    ctypes.char.ptr);
 
     this._debug_pake_info = 
         lib.declare("debug_pake_info",
@@ -181,15 +181,15 @@ pake.prototype = {
     /**
      * @return {String} respc
      */
-    compute_respc:function (tcpcrypt_sid) {
-        return this._pake_compute_respc(this._p, tcpcrypt_sid).readString();
+    compute_respc:function (sessid) {
+        return this._pake_compute_respc(this._p, sessid).readString();
     },
 
     /**
      * @return {String} resps
      */
-    compute_resps:function (tcpcrypt_sid) {
-        return this._pake_compute_resps(this._p, tcpcrypt_sid).readString();
+    compute_resps:function (sessid) {
+        return this._pake_compute_resps(this._p, sessid).readString();
     },
 
     /*************************************************************************/
